@@ -20,4 +20,4 @@ vector <int32_t> download_traject (CActiveSocket &SocketActive, int32_t points_c
 
 vector<vector<int32_t>> get_nodes(const string& Traject_file_name);
 
-string hex_converting(int& num);
+string hex_converting(int num);

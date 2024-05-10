@@ -11,7 +11,6 @@
 #include <iomanip>
 #include <cstdint>
 #include <bitset>
-
 using namespace std;
 
 namespace request
@@ -21,12 +20,18 @@ const int32_t NODES_PER_PACKET{200};          // Number of points for 1 package
 const uint32_t PACKETS_WO_CONFIRM{1};        // How many packages could be sent without confirmation
 const double CONFIRM_TIMEOUT_SEC{0.1};
 
-template <typename T>
-string hex_converting(T num)
+string hex_converting(int32_t num)
 {
     stringstream mystream;
-    mystream << hex <<bitset<16>(num);
-    return mystream.str();
+    mystream << hex << num;
+    if(num < 0)
+    {
+        return mystream.str().substr(4);
+    }
+    else
+    {
+        return mystream.str();
+    }
 }
 
 
@@ -194,11 +199,9 @@ if(need_confirm)
     int32_t first_node_idx = max( seg_num * NODES_PER_PACKET - seg_num, NULL32 );
     int32_t last_node_idx = min( first_node_idx + NODES_PER_PACKET, NODES_SIZE) - 1;
     int32_t nodes_in_this_packet = last_node_idx - first_node_idx + 1;
-    stringstream ss;
-    ss << hex << nodes_in_this_packet;
-    string str2 = ss.str();
-    buf[counter] = uint8(stoi(str2, nullptr, 16));
-    counter++;
+
+    string str2 = hex_converting(nodes_in_this_packet);
+    buf[counter++] = uint8(stoi(str2, nullptr, 16));
 
 
     for(int i = first_node_idx; i <last_node_idx+1; i++)
