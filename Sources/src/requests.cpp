@@ -14,7 +14,7 @@ using namespace std;
 
 namespace request
 {
-    constexpr size_t MAX_PACKET{4096};
+constexpr size_t MAX_PACKET{4096};
 const int32_t NODES_PER_PACKET{200};          // Number of points for 1 package
 const uint32_t PACKETS_WO_CONFIRM{1};        // How many packages could be sent without confirmation
 const double CONFIRM_TIMEOUT_SEC{0.1};
@@ -166,22 +166,18 @@ void upload_segment(CActiveSocket &SocketActive, int32_t seg_num, bool need_conf
     counter+=4;
 
     //data of segment traject
-
-    if(need_confirm)
+if(need_confirm)
     {
 
-    buf[4] = uint8(0xAA);
-    buf[5] = uint8(0xAA);
-    buf[6] = uint8(0x08);
-    buf[7] = uint8(0x00);
-    buf[8] = uint8(stoi(str1, nullptr, 16));
-    counter+=5;
+    buf[6] = uint8(stoi(str1, nullptr, 16));
+    counter+=1;
 
     }
     else{
         buf[4] = uint8(stoi(str1, nullptr, 16));
         counter++;
     }
+
 
     int32_t NULL32=0;
     int32_t NODES_SIZE = nodes.size();
@@ -207,7 +203,7 @@ void upload_segment(CActiveSocket &SocketActive, int32_t seg_num, bool need_conf
 
         for(int j = hexString1.length()-1; j > 0; j=j- 2)
         {
-            buf[tempcounter++] = uint8(stoi(hexString1.substr(j,j-2), nullptr, 16) );
+            buf[tempcounter++] = uint8(stoi(hexString1.substr(j-1,2), nullptr, 16) );
         }
         if(hexString1.length() % 2 != 0)
         {
@@ -215,23 +211,27 @@ void upload_segment(CActiveSocket &SocketActive, int32_t seg_num, bool need_conf
             hexString1.erase(0);
             buf[tempcounter++] = uint8(stoi(temp1, nullptr, 16) );
         }
-        counter+=8;
+
+        counter+=4;
+
         uint32_t tempcounter2 = counter;
         stringstream ss_for_nodes;
+
         ss_for_nodes << hex << nodes[i][1];
         string hexString2 = ss_for_nodes.str();
 
         for(int j = hexString2.length()-1; j > 0; j -= 2)
         {
-            buf[tempcounter2++] = uint8(stoi(hexString1.substr(j,j-2), nullptr, 16) );
+            buf[tempcounter2++] = uint8(stoi(hexString2.substr(j-1,2), nullptr, 16) );
         }
         if(hexString2.length() % 2 != 0)
         {
             temp2 = hexString2[0];
             hexString1.erase(0);
-            buf[tempcounter2++] = uint8(stoi(temp1, nullptr, 16) );
+            buf[tempcounter2++] = uint8(stoi(temp2, nullptr, 16) );
         }
-        counter+=4;
+
+        counter+=2;
     }
 
 
