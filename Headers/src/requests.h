@@ -19,3 +19,5 @@ void upload_traj(CActiveSocket& SocketActive, vector<vector<int32_t>> nodes);
 vector <int32_t> download_traject (CActiveSocket &SocketActive, int32_t points_cnt);
 
 vector<vector<int32_t>> get_nodes(const string& Traject_file_name);
+
+string hex_converting(int& num);

@@ -10,6 +10,8 @@
 #include <string>
 #include <iomanip>
 #include <cstdint>
+#include <bitset>
+
 using namespace std;
 
 namespace request
@@ -19,6 +21,17 @@ const int32_t NODES_PER_PACKET{200};          // Number of points for 1 package
 const uint32_t PACKETS_WO_CONFIRM{1};        // How many packages could be sent without confirmation
 const double CONFIRM_TIMEOUT_SEC{0.1};
 
+template <typename T>
+string hex_converting(T num)
+{
+    stringstream mystream;
+    mystream << hex <<bitset<16>(num);
+    return mystream.str();
+}
+
+
+
+
 void ShowError(CSimpleSocket ss, string s)
 {
 
@@ -26,7 +39,6 @@ void ShowError(CSimpleSocket ss, string s)
     std::cout << " IsSocketValid() = " << ss.IsSocketValid() << std::endl << std::endl;
 } //ShowError
 
-void switch_func (string &hexString, int32_t& counter, uint8 (&buf)[MAX_PACKET]);
 
 void get_API_version (CActiveSocket& SocketActive){ //This function send API version request and shows response
     uint8 buf[MAX_PACKET] ;
@@ -156,9 +168,7 @@ void upload_segment(CActiveSocket &SocketActive, int32_t seg_num, bool need_conf
 {
     int32_t counter=0;
     uint8 buf[MAX_PACKET]{0};
-    stringstream s;
-    s << hex << seg_num;
-    string str1 = s.str();
+    string str1 = hex_converting(seg_num);
     buf[0] = uint8(0xAA);
     buf[1] = uint8(0xAA);
     buf[2] = uint8(0x07);
@@ -194,12 +204,9 @@ if(need_confirm)
     for(int i = first_node_idx; i <last_node_idx+1; i++)
     {
 
-        stringstream sss_for_nodes;
-        sss_for_nodes << hex << nodes[i][0];
-        string hexString1 = sss_for_nodes.str();
+        string hexString1 = hex_converting(nodes[i][0]);
         uint32_t tempcounter = counter;
-        string temp1;
-        string temp2;
+        string temp1, temp2;
 
         for(int j = hexString1.length()-1; j > 0; j=j- 2)
         {
@@ -215,10 +222,8 @@ if(need_confirm)
         counter+=4;
 
         uint32_t tempcounter2 = counter;
-        stringstream ss_for_nodes;
 
-        ss_for_nodes << hex << nodes[i][1];
-        string hexString2 = ss_for_nodes.str();
+        string hexString2 = hex_converting(nodes[i][1]);
 
         for(int j = hexString2.length()-1; j > 0; j -= 2)
         {
@@ -278,13 +283,10 @@ void upload_traj(CActiveSocket& SocketActive, vector<vector<int32_t>> nodes){
     buf[2] = uint8(0x06);
     buf[3] = uint8(0x00);
     counter+=4;
-    stringstream ss;
-    stringstream ss2;
-    ss << hex << nodes.size();
-    ss2 << hex << nodes[nodes.size()-1][0];
 
-    string hexString = ss.str();
-    string hexString2 = ss2.str();
+    string hexString = hex_converting(nodes.size());
+    string hexString2 = hex_converting(nodes[nodes.size()-1][0]);
+
     switch_func(hexString2, counter, buf);
     counter+=2;
     switch_func(hexString, counter, buf);
