@@ -10,6 +10,7 @@
 #include <string>
 #include <iomanip>
 #include <cstdint>
+#include "PassiveSocket.h"
 using namespace std;
 
 namespace request
@@ -129,8 +130,8 @@ std::cout << "SocketActive.Close() = " << SocketActive.Close() << std::endl;
 vector<vector<int32_t>> get_nodes(const string& Traject_file_name) {
     vector<vector<int32_t>> nodes;
      ifstream myfile(Traject_file_name);
-    if (!myfile.is_open()) { // Проверка, успешно ли открыт файл
-        cerr << "Unable to open file\n"; // Выход из программы с ошибкой
+    if (!myfile.is_open()) { // ГЏГ°Г®ГўГҐГ°ГЄГ , ГіГ±ГЇГҐГёГ­Г® Г«ГЁ Г®ГІГЄГ°Г»ГІ ГґГ Г©Г«
+        cerr << "Unable to open file\n"; // Г‚Г»ГµГ®Г¤ ГЁГ§ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г» Г± Г®ГёГЁГЎГЄГ®Г©
     }
     int32_t num1, num2;
     while(myfile >> num1 >> num2) {
@@ -300,7 +301,7 @@ void upload_traj(CActiveSocket& SocketActive, vector<vector<int32_t>> nodes){
     if (nodes_cnt % NODES_PER_PACKET != 0)
         segments_cnt += 1;
 
-    vector<int32_t> segment_status(segments_cnt); //Заполнение по умолчанию
+    vector<int32_t> segment_status(segments_cnt); //Г‡Г ГЇГ®Г«Г­ГҐГ­ГЁГҐ ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ
     segment_status.assign(segments_cnt, -2);
     int32_t left_wo_confirm{PACKETS_WO_CONFIRM};
 
@@ -321,7 +322,7 @@ void upload_traj(CActiveSocket& SocketActive, vector<vector<int32_t>> nodes){
             cout << "Repeating upload segment" << seg_num << "with status" <<segment_status[seg_num] <<endl;
         }//if
 
-        //Запрашивать ли подтверждение сейчас?
+        //Г‡Г ГЇГ°Г ГёГЁГўГ ГІГј Г«ГЁ ГЇГ®Г¤ГІГўГҐГ°Г¦Г¤ГҐГ­ГЁГҐ Г±ГҐГ©Г·Г Г±?
 
         bool need_confirm = false;    //by default
 
