@@ -1,5 +1,5 @@
 #include "src/PassiveSocket.h" // Include header for active socket object definition
-#include "src/requests.h"
+#include "src/requests.cpp"
 using namespace std;
 
 int main()
@@ -14,9 +14,9 @@ int main()
     request::ShowError(SocketActive, "SocketActive.Open");
 
 
-   request::get_API_version(SocketActive); // Запрос версии API
-   request::get_sw_revision(SocketActive); // Запрос версии прошивки ГРУ
-   request::get_gru_state(SocketActive);  // Запрос состояния ГРУ
+   request::get_API_version(SocketActive); // Г‡Г ГЇГ°Г®Г± ГўГҐГ°Г±ГЁГЁ API
+   request::get_sw_revision(SocketActive); // Г‡Г ГЇГ°Г®Г± ГўГҐГ°Г±ГЁГЁ ГЇГ°Г®ГёГЁГўГЄГЁ ГѓГђГ“
+   request::get_gru_state(SocketActive);  // Г‡Г ГЇГ°Г®Г± Г±Г®Г±ГІГ®ГїГ­ГЁГї ГѓГђГ“
     string Traject_file_name, answer;
     cout << "Do you want to use default traject? [y/n]";
     cin >> answer;
@@ -39,7 +39,7 @@ int main()
     }
     cout << "Filled array:"<<endl;
     request::upload_traj(SocketActive, nodes);
-    request::socket_close(SocketActive);   // Закрытие сокета
+    request::socket_close(SocketActive);   // Г‡Г ГЄГ°Г»ГІГЁГҐ Г±Г®ГЄГҐГІГ 
     //download_traject(SocketActive, points_cnt);
     return 0;
 } //main
