@@ -41,8 +41,8 @@ int main()
 
     request::upload_traj(SocketActive, nodes); //uploading trajectory
     request::socket_close(SocketActive);   // socket closing
+    request::download_traject (SocketActive, points_cnt);
 
-    //download_traject(SocketActive, points_cnt); @still in working process (don't delete)
 
     return 0;
 }//main
