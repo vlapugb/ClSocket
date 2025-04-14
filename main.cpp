@@ -1,9 +1,30 @@
-#include "src/PassiveSocket.h" // Include header for active socket object definition
-#include "src/requests.cpp"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <malloc.h>
+#include <algorithm>
+#include <thread>
+#include <chrono>
+#include <sstream>
+#include <string>
+#include <iomanip>
+#include <cstdint>
+#include <bitset>
+#ifdef _WIN32
+#include <windows.h>|
+#endif
+#include "src/PassiveSocket.h"
+#include <stdio.h>
+#include "src/requests.h"
 using namespace std;
+
 
 int main()
 {
+    #ifdef _WIN32
+    SetConsoleCP(866);
+    SetConsoleOutputCP(866);
+    #endif
     int32_t points_cnt;
     CActiveSocket SocketActive( CSimpleSocket::CSocketType::SocketTypeUdp) ;
     cout << "starting" << endl;
@@ -14,9 +35,9 @@ int main()
     request::ShowError(SocketActive, "SocketActive.Open");
 
 
-   request::get_API_version(SocketActive); // Çàïðîñ âåðñèè API
-   request::get_sw_revision(SocketActive); // Çàïðîñ âåðñèè ïðîøèâêè ÃÐÓ
-   request::get_gru_state(SocketActive);  // Çàïðîñ ñîñòîÿíèÿ ÃÐÓ
+    request::get_API_version(SocketActive); // request API version
+    request::get_sw_revision(SocketActive); // request GRU software version
+    request::get_gru_state(SocketActive);  // request GRU state
     string Traject_file_name, answer;
     cout << "Do you want to use default traject? [y/n]";
     cin >> answer;
@@ -27,22 +48,19 @@ int main()
     }
     else Traject_file_name = "traject.txt";
 
-    auto nodes = request::get_nodes(Traject_file_name); //filling vector nodes
-    int32_t TEMP_SIZE_NODE = nodes.size();
-    points_cnt = nodes[TEMP_SIZE_NODE-1][0];
-
-
+    auto nodes = request::get_nodes(Traject_file_name); //filling vector nodes from data file
+    int32_t TEMP_SIZE_NODE = nodes.size(); //using for download
+    points_cnt = nodes[TEMP_SIZE_NODE-1][0]; //using for download
 
     for(auto &node : nodes)
     {
         cout<<node[0]<<"\t"<<node[1]<<endl; //vector nodes, output
     }
     cout << "Filled array:"<<endl;
-    request::upload_traj(SocketActive, nodes);
-    request::socket_close(SocketActive);   // Çàêðûòèå ñîêåòà
-    //download_traject(SocketActive, points_cnt);
+
+    request::upload_traj(SocketActive, nodes); //uploading trajectory
+    request::download_traject (SocketActive, points_cnt); // downloading trajectory
+    request::socket_close(SocketActive);   // socket closing
+
     return 0;
-} //main
-
-//==========================================
-
+}//main
