@@ -1,3 +1,0 @@
-/home/vkinzin/Documents/cppdir/123/build/CMakeFiles/UDPPacketTransfer.dir
-/home/vkinzin/Documents/cppdir/123/build/CMakeFiles/edit_cache.dir
-/home/vkinzin/Documents/cppdir/123/build/CMakeFiles/rebuild_cache.dir

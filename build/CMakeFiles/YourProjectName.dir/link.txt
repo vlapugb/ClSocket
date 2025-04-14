@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/YourProjectName.dir/link.d CMakeFiles/YourProjectName.dir/src/ActiveSocket.cpp.o CMakeFiles/YourProjectName.dir/src/PassiveSocket.cpp.o CMakeFiles/YourProjectName.dir/src/SimpleSocket.cpp.o CMakeFiles/YourProjectName.dir/src/requests.cpp.o CMakeFiles/YourProjectName.dir/main.cpp.o -o YourProjectName

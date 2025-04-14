@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/UDPPacketTransfer.dir/link.d CMakeFiles/UDPPacketTransfer.dir/src/ActiveSocket.cpp.o CMakeFiles/UDPPacketTransfer.dir/src/PassiveSocket.cpp.o CMakeFiles/UDPPacketTransfer.dir/src/SimpleSocket.cpp.o CMakeFiles/UDPPacketTransfer.dir/src/requests.cpp.o CMakeFiles/UDPPacketTransfer.dir/main.cpp.o -o UDPPacketTransfer
