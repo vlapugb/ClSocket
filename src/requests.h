@@ -30,7 +30,7 @@ namespace request
 
     void socket_close(CActiveSocket &SocketActive);
 
-    std::vector<int32_t> get_unloaded_num(const std::vector<int32_t> &segment_status)
+    std::vector<int32_t> get_unloaded_num(const std::vector<int32_t> &segment_status);
 
     void upload_segment(CActiveSocket &SocketActive, int32_t seg_num, bool need_confirm, const std::vector<std::vector<int32_t>> &nodes);
 
